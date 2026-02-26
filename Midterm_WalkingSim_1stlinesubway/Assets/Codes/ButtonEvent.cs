@@ -1,16 +1,22 @@
+using System;
+using TMPro;
 using UnityEngine;
 
 public class ButtonEvent : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public static event Action onButtonPressed;
 
-    // Update is called once per frame
-    void Update()
+    public void OnButtonPressed()
     {
-        
+        //?. means only do this if it isnt null (if someone is listening)
+        onButtonPressed?.Invoke();
     }
+    /*private void PressMe()
+    {
+        Light Light = GetCOmponent<Light>();
+        TextMeshProUGUI statusText = GetComponentInChildren<TextMeshProUGUI>();
+        
+        Light clolor = Color white;
+        statusText.text = "Pressed";
+    }*/
 }

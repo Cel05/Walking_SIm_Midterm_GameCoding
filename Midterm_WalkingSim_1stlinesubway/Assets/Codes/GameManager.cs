@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,7 +27,7 @@ public class GameManager : MonoBehaviour
     public void OnReLoad(InputAction.CallbackContext context)
     {
         if(context.performed)
-            SceneManeger LoadScene(SceneManager.GetActiveScene() buildIndex);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Debug.Log("reload");
     }
 }
