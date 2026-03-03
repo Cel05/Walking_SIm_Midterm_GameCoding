@@ -9,7 +9,12 @@ public class dialoguemanager : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        CCPlayer.OnDialogueRequested += StartDialogue;
+    }
+
+    private void OnDisable()
+    {
+        CCPlayer.OnDialogueRequested -= StartDialogue;
     }
     
     void StartDialogue(NPCData npcData)
@@ -21,9 +26,10 @@ public class dialoguemanager : MonoBehaviour
         }
 
         if (dialoguePanel != null) dialoguePanel.SetActive(true);
+        Debug.Log("turning on panel");
         if (displayName != null) displayName.text = npcData.displayName;
         if (placeHolderOpeningLine != null) placeHolderOpeningLine.text = npcData.placeHolderOpeningLine;
-        Debug.Log($"DIalogue start with {npcData.displayName}; {npcData.placeHolderOpeningLine}");
+        //Debug.Log($"DIalogue start with {npcData.displayName}; {npcData.placeHolderOpeningLine}");
 
     }
 }

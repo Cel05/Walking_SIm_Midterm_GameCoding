@@ -75,7 +75,7 @@ public class CCPlayer : MonoBehaviour
     {
         //updating our bool to be true or false if the player is grounded
         bool grounded = cc.isGrounded;
-        Debug.Log("is grounded: " + grounded);
+        //Debug.Log("is grounded: " + grounded);
         
         //this keeps the cc snapped to the ground
         if (grounded && verticalVelocity <= 0)
