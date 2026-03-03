@@ -22,7 +22,7 @@ public class CCPlayer : MonoBehaviour
     private float pitch; //up and down
     
     //interaction variables
-    private GameObject currentTarget;
+    
     public Image reticleImage;
     private bool interactPressed;
     public static event Action<NPCData> OnDialogueRequested;
@@ -33,6 +33,7 @@ public class CCPlayer : MonoBehaviour
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
+    
     {
         cc = GetComponent<CharacterController>();
         
@@ -133,8 +134,10 @@ public class CCPlayer : MonoBehaviour
         if(Physics.Raycast(ray, out RaycastHit hit, 3f))
             
         {
-            currentInteractible = hit .collider.GetComponent<Interactible>();
+            currentInteractible = hit.collider.GetComponent<Interactible>();
+            Debug.Log("current interactible: " + currentInteractible);
             if (currentInteractible != null && reticleImage != null)
+                
             {
                 reticleImage.color  = Color.red;
                 Debug.DrawRay(cameraTransform.position, cameraTransform.forward, Color.blue);
@@ -156,10 +159,10 @@ public class CCPlayer : MonoBehaviour
         //consume the input so one click only triggers one interactions
         //this changes next frame
         interactPressed = false;
-        if(currentTarget == null) return;
-        Destroy(currentTarget);
+        if(currentInteractible == null) return;
+        currentInteractible.Interact(this);
         //clear target reference after destroying
-        currentTarget = null;
+        Debug.Log("handle interact should be running");
         
     }
 
@@ -191,7 +194,7 @@ public class CCPlayer : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        Debug.Log("CC Collided with: " + hit.gameObject.name);
+        //Debug.Log("CC Collided with: " + hit.gameObject.name);
     }
 
     public void RequestDialogue(NPCData npcData)
