@@ -18,22 +18,23 @@ public class CCPlayer : MonoBehaviour
     private Vector2 moveInput;
     private Vector2 lookInput;
     private float verticalVelocity; //current upward/downward speed
-    private float gravity = -20f; //constant downard accleration
+    private float gravity = -20f; //constant downward acceleration
     private float pitch; //up and down
     
     //interaction variables
-    
     public Image reticleImage;
     private bool interactPressed;
+    //this is our event that the other scripts will be listening for
     public static event Action<NPCData> OnDialogueRequested;
-    private Interactible currentInteractible;
+    private Interactible currentInteractable;
 
     private bool isRunning;
     private bool isJumping;
+
+    public bool controlsLocked;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
-    
     {
         cc = GetComponent<CharacterController>();
         
@@ -49,10 +50,18 @@ public class CCPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleLook();
-        HandleMovement();
-        CheckInteract();
-        HandleInteract();
+        if (cameraTransform == null) return;
+        
+
+        if (!controlsLocked)
+        {
+            HandleLook();
+            HandleMovement();
+
+            CheckInteract();
+            HandleInteract();
+        }
+        
     }
 
     private void HandleLook()
@@ -121,6 +130,7 @@ public class CCPlayer : MonoBehaviour
     {
         //reset reticle image to normal color first
         if(reticleImage != null) reticleImage.color = new Color(0, 0, 0, .7f);
+        currentInteractable = null;
         //make a ray that goes straight out of the camera(center of screen)
         //players eyesight
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
@@ -130,26 +140,22 @@ public class CCPlayer : MonoBehaviour
         //bool didHit = Physics.Raycast(ray, out hit, 3);
         //if (!didHit) return;//if we didn't hit anything start here
         //if we hit something tagged interactable
-        //if (hit.collider.CompareTag("Interactable"))
-        if(Physics.Raycast(ray, out RaycastHit hit, 3f))
-            
+        if (Physics.Raycast(ray, out RaycastHit hit, 3f))
         {
-            currentInteractible = hit.collider.GetComponent<Interactible>();
-            Debug.Log("current interactible: " + currentInteractible);
-            if (currentInteractible != null && reticleImage != null)
-                
+            currentInteractable = hit.collider.GetComponentInParent<Interactible>();
+            Debug.Log("Current interactable: " + currentInteractable);
+            if(currentInteractable != null && reticleImage != null)
             {
-                reticleImage.color  = Color.red;
-                Debug.DrawRay(cameraTransform.position, cameraTransform.forward, Color.blue);
+                reticleImage.color = Color.red;
+                Debug.DrawRay(cameraTransform.position, cameraTransform.forward * 3, Color.blue);
             }
             else
             {
-                Debug.DrawRay(cameraTransform.position, cameraTransform.forward, Color.blue);
+                Debug.DrawRay(cameraTransform.position, cameraTransform.forward * 3, Color.blue);
             }
             
         }
         
-        Debug.DrawRay(cameraTransform.position, cameraTransform.forward * 3, Color.blue);
     }
     
     void HandleInteract()
@@ -159,11 +165,13 @@ public class CCPlayer : MonoBehaviour
         //consume the input so one click only triggers one interactions
         //this changes next frame
         interactPressed = false;
-        if(currentInteractible == null) return;
-        currentInteractible.Interact(this);
-        //clear target reference after destroying
+        if(currentInteractable == null) return;
+        //Debug.Log("current interactable: " + currentInteractable);
+        currentInteractable.Interact(this);
         Debug.Log("handle interact should be running");
+    
         
+
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -190,6 +198,7 @@ public class CCPlayer : MonoBehaviour
     public void OnInteract(InputAction.CallbackContext context)
     {
         if(context.performed) interactPressed = true;
+        Debug.Log("OnInteract fired. performed=" + context.performed);
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -200,5 +209,25 @@ public class CCPlayer : MonoBehaviour
     public void RequestDialogue(NPCData npcData)
     {
         OnDialogueRequested?.Invoke(npcData);
+    }
+
+    public void SetControlsLocked(bool locked)
+    {
+        controlsLocked = locked;
+        if (locked)
+        {
+            //stop movement instantly
+            moveInput = Vector3.zero;
+            lookInput = Vector3.zero;
+            verticalVelocity = 0;
+            
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 }

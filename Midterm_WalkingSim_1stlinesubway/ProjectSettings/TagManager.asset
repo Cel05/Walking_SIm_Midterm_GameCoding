@@ -5,11 +5,12 @@ TagManager:
   serializedVersion: 3
   tags:
   - Pickup
+  - TeleportPoint_01
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - 

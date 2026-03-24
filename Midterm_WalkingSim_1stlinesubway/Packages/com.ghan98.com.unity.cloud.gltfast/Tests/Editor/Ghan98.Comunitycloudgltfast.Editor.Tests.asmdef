@@ -1,0 +1,14 @@
+{
+    "name": "Ghan98.Comunitycloudgltfast.Editor.Tests",
+    "references": [
+        "Ghan98.Comunitycloudgltfast.Editor",
+        "Ghan98.Comunitycloudgltfast"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}

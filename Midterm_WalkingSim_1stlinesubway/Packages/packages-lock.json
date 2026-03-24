@@ -1,5 +1,13 @@
 {
   "dependencies": {
+    "com.ghan98.com.unity.cloud.gltfast": {
+      "version": "file:com.ghan98.com.unity.cloud.gltfast",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.test-framework": "1.6.0"
+      }
+    },
     "com.unity.collab-proxy": {
       "version": "2.11.2",
       "depth": 0,

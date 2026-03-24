@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b99619c5e74954cb69a2d2f72ce9b09b, type: 3}
+  m_Name: New NPC Data
+  m_EditorClassIdentifier: Assembly-CSharp::NPCData
+  displayName: Garry
+  lines:
+  - Friendly gets people ignored down here. Clear works better
+  choices:
+  - choiceText: "What\u2019s your problem with me?"
+    nextNode: {fileID: 11400000, guid: fcc7602597b3e4dc9ac278b9436a5bf1, type: 2}
+  - choiceText: ou say that from experience?
+    nextNode: {fileID: 11400000, guid: fcc7602597b3e4dc9ac278b9436a5bf1, type: 2}
+  nextNode: {fileID: 0}

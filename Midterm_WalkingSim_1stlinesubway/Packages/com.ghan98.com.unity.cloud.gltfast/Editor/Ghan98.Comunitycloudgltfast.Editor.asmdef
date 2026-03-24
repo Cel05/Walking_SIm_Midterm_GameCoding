@@ -1,0 +1,10 @@
+{
+    "name": "Ghan98.Comunitycloudgltfast.Editor",
+    "references": [
+      "Ghan98.Comunitycloudgltfast"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}
